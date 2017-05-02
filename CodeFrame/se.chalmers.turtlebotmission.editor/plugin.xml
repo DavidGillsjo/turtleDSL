@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated turtlebotmission -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="turtlebotmission.presentation.TurtlebotmissionModelWizardID"
+            name="%_UI_TurtlebotmissionModelWizard_label"
+            class="turtlebotmission.presentation.TurtlebotmissionModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TurtlebotmissionModelFile.gif">
+         <description>%_UI_TurtlebotmissionModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated turtlebotmission -->
+      <editor
+            id="turtlebotmission.presentation.TurtlebotmissionEditorID"
+            name="%_UI_TurtlebotmissionEditor_label"
+            icon="icons/full/obj16/TurtlebotmissionModelFile.gif"
+            extensions="turtlebotmission"
+            class="turtlebotmission.presentation.TurtlebotmissionEditor"
+            contributorClass="turtlebotmission.presentation.TurtlebotmissionActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

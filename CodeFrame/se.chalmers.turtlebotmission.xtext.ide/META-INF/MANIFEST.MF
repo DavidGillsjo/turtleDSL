@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: se.chalmers.turtlebotmission.xtext.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: se.chalmers.turtlebotmission.xtext.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: se.chalmers.turtlebotmission.xtext,
+ se.chalmers.turtlebotmission,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: se.chalmers.ide.contentassist.antlr.internal,
+ se.chalmers.ide.contentassist.antlr,
+ se.chalmers.ide.contentassist.antlr.internal,
+ se.chalmers.ide.contentassist.antlr
+
