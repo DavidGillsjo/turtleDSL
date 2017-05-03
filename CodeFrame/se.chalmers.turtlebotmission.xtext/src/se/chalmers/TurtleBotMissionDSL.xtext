@@ -8,10 +8,11 @@ TurtleBot returns TurtleBot:
 	'TurtleBot'
 	name=EString
 	'{'
-		'bot_start' bot_start=[WayPoint|EString]
 		'area' area=Area
-		'waypointtypes' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}' 
-		'waypoints' '{' waypoints+=WayPoint ( "," waypoints+=WayPoint)* '}' 
+		'waypoint_types' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}'*
+		'waypoint types' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}'*
+		'waypoints' '{' waypoints+=WayPoint ( "," waypoints+=WayPoint)* '}'
+		'bot starts at' bot_start=[WayPoint|EString] 
 		('missions' '{' missions+=Mission ( "," missions+=Mission)* '}' )?
 	'}';
 
@@ -44,7 +45,7 @@ WayPoint returns WayPoint:
 	'{'
 		('coord_x' coord_x=EInt)?
 		('coord_y' coord_y=EInt)?
-		'waypointtypes' '(' waypointtypes+=[WaypointType|EString] ( "," waypointtypes+=[WaypointType|EString])* ')' 
+		'waypoint_types' '(' waypointtypes+=[WaypointType|EString] ( "," waypointtypes+=[WaypointType|EString])* ')' 
 	'}';
 
 Mission returns Mission:
