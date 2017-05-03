@@ -13,3 +13,7 @@ hs_err_pid*
 
 # TUrtleDSL
 MyTurtle/generated_mission.py
+
+#Generated xtext files
+*.xml_gen
+src-gen/
