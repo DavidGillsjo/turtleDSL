@@ -1,6 +1,7 @@
 # How to get editor up and running
 1. Install eclipse (choose modeling tools version during install)
 2. Open the existing project located in CodeFrame
+3. Choose project turtlebotmission.xtext and press Run. This will generate some java-files.
 3. In the menu, choose Run-> run configurations...
 4. Create a new eclipse application, change name if you want, then press Run.
 5. Now the DSL editor starts (I get a warning and a null pointer exception, seems to work anyway)
@@ -12,5 +13,10 @@
 # Run editor
 After initial setup you only need to:
 1. Open the existing project located in CodeFrame
-2. Run->run history->you_config_name
-3. And we are done, editor up and running (should remember you last project)
+2. Choose project turtlebotmission.xtext and press Run. This will generate some java-files.
+3. Run->run history->you_config_name
+4. And we are done, editor up and running (should remember you last project)
+
+# Development
+To update grammar, edit file turtlebotmission.xtext/src/se.chalmers/TurtleBotMissionDSL.xtext. 
+Remember to run step 2 and 3 from above to get the new editor.
