@@ -1,13 +1,13 @@
 # How to get editor up and running
 1. Install eclipse (choose modeling tools version during install)
-2. Open the existing project located in CodeFrame
+2. Open the existing projects located in CodeFrame (deselect Codeframe project)
 3. Open turtlebotmission.xtext and right click, choose run as -> generate artifacts. This will generate some java-files.
-3. In the menu, choose Run-> run configurations...
-4. Create a new eclipse application, change name if you want, then press Run.
-5. Now the DSL editor starts (I get a warning and a null pointer exception, seems to work anyway)
-6. Skip this! (Add the file association for *.TurtleBotMissionDSL in window->preferences->general->editor->file associations)
-7. Open the project located in MyTurtle
-8. Chose one of the example files and press the Turtle icon in the menu bar, you should now have a generated_mission.py in the project!
+4. In the menu, choose Run-> run configurations...
+5. Create a new eclipse application, change name if you want, then press Run.
+6. Now the DSL editor starts (I get a warning and a null pointer exception, seems to work anyway)
+7. Skip this! (Add the file association for *.TurtleBotMissionDSL in window->preferences->general->editor->file associations)
+8. Open the project located in MyTurtle
+9. Chose one of the example files and press the Turtle icon in the menu bar, you should now have a generated_mission.py in the project!
 
 
 # Run editor
