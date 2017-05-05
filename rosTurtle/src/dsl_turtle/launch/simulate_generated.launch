@@ -1,0 +1,10 @@
+<launch>
+
+  <!-- Turtlesim Node-->
+  <node pkg="turtlesim" type="turtlesim_node" name="sim"/>
+
+  <!-- Generated waypoint node-->
+  <node pkg="dsl_turtle" type="generated_turtle.py" name="turtle" output="screen"/>  
+
+
+</launch>
