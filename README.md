@@ -1,7 +1,7 @@
 # How to get editor up and running
 1. Install eclipse (choose modeling tools version during install)
 2. Open the existing project located in CodeFrame
-3. Choose project turtlebotmission.xtext and press Run. This will generate some java-files.
+3. Open turtlebotmission.xtext and right click, choose run as -> generate artifacts. This will generate some java-files.
 3. In the menu, choose Run-> run configurations...
 4. Create a new eclipse application, change name if you want, then press Run.
 5. Now the DSL editor starts (I get a warning and a null pointer exception, seems to work anyway)
