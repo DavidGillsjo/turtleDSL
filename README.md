@@ -20,3 +20,7 @@ After initial setup you only need to:
 # Development
 To update grammar, edit file turtlebotmission.xtext/src/se.chalmers/TurtleBotMissionDSL.xtext. 
 Remember to run step 2 and 3 from above to get the new editor.
+
+# Run turtlesim
+1. ./init_rosTurtle.sh
+2. roslaunch dsl_turtle simulate_generated.launch
