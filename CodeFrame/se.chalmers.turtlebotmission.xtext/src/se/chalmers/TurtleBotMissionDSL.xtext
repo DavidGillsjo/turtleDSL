@@ -8,14 +8,12 @@ TurtleBot returns TurtleBot:
 	'TurtleBot'
 	name=EString
 	'{'
-		'area' area=Area
-		'waypoint_types' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}'*
-		'waypoint types' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}'*
-		'waypoints' '{' waypoints+=WayPoint ( "," waypoints+=WayPoint)* '}'
-		'bot starts at' bot_start=[WayPoint|EString] 
-		('missions' '{' missions+=Mission ( "," missions+=Mission)* '}' )?
+		('area' '=')? area=Area
+		'waypoint types' '=' '{' waypointtypes+=WaypointType ( "," waypointtypes+=WaypointType)* '}'
+		'waypoints' '=' '{' waypoints+=WayPoint ( "," waypoints+=WayPoint)* '}'
+		'bot starts at' '=' bot_start=[WayPoint|EString] 
+		('missions' '=' '{' missions+=Mission ( "," missions+=Mission)* '}' )?
 	'}';
-
 
 
 
@@ -28,49 +26,38 @@ EString returns ecore::EString:
 
 Area returns Area:
 	{Area}
-	'Area'
-	'{'
-		('xmax' xmax=EInt)?
-		('ymax' ymax=EInt)?
-	'}';
+	('('
+		'max x' '=' xmax=EInt
+		"," 'max y' '=' ymax=EInt
+	')')?;
 
 WaypointType returns WaypointType:
-	{WaypointType}
-	'WaypointType'
 	name=EString;
 
 WayPoint returns WayPoint:
-	'WayPoint'
+	waypointtypes+=[WaypointType|EString] ( "&" waypointtypes+=[WaypointType|EString])*
 	name=EString
-	'{'
-		('coord_x' coord_x=EInt)?
-		('coord_y' coord_y=EInt)?
-		'waypoint_types' '(' waypointtypes+=[WaypointType|EString] ( "," waypointtypes+=[WaypointType|EString])* ')' 
-	'}';
+	'(' 'x' '=' coord_x=EInt
+	"," 'y' '=' coord_y=EInt ')';
 
 Mission returns Mission:
-	'Mission'
 	name=EString
 	'{'
-		'task' '{' task+=Task ( "," task+=Task)* '}' 
+		task+=Task ( "," task+=Task)*
 	'}';
 
 EInt returns ecore::EInt:
 	'-'? INT;
 
 LineTask returns LineTask:
-	'LineTask'
-	'{'
-		'waypoints' '(' waypoints+=[WayPoint|EString] ( "," waypoints+=[WayPoint|EString])* ')' 
-	'}';
+	'line'
+	'(' waypoints+=[WayPoint|EString] ( "," waypoints+=[WayPoint|EString])* ')';
 
 ShortestPathTask returns ShortestPathTask:
-	'ShortestPathTask'
-	'{'
-		'waypoints' '(' waypoints+=[WayPoint|EString] ( "," waypoints+=[WayPoint|EString])* ')' 
-	'}';
+	'shortest path'
+	'(' waypoints+=[WayPoint|EString] ( "," waypoints+=[WayPoint|EString])* ')';
 
 ReturnToStartTask returns ReturnToStartTask:
 	{ReturnToStartTask}
-	'ReturnToStartTask'
+	'return to start'
 	;
