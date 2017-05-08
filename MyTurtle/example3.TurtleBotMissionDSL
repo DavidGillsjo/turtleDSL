@@ -1,0 +1,20 @@
+/*
+ * A simple turtle bot specification 
+ */
+TurtleBot test{
+		
+	area = (max x = 5, max y = 5)
+		
+	waypoint types = {Storage, GasStation, ParkingLot, Customer}
+
+	// we define way points, which are of one or multiple types
+	waypoints = {
+		Hotel W0 (x=1, y=1),
+		GasStation W1 ( x=1, y=2 ),
+		PetrolStation&GasStation W2 ( x=3, y=4 ),
+		Airport W3 ( x=10, y=5 )
+	}
+	
+	bot starts at = W0
+	
+}

@@ -1,6 +1,14 @@
 package se.chalmers.turtlebotmission.rosstarter.handlers;
 
 import java.io.ByteArrayInputStream;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+
+
 import java.util.ArrayList;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -29,6 +37,7 @@ import turtlebotmission.ShortestPathTask;
 import turtlebotmission.Task;
 import turtlebotmission.TurtleBot;
 import turtlebotmission.WayPoint;
+import turtlebotmission.WaypointType;
 import turtlebotmission.impl.TurtleBotImpl;
 
 /**
@@ -68,10 +77,27 @@ public class CreatePythonFromModelHandler extends AbstractHandler {
 								
 								//This is were you should parse the model, create a plan, and fill the string template
 								//Don't hesitate to use extra classes and methods to structure your code
-								String pythoncode = "This is a placeholder";
 								
 								
 								
+								
+								final STGroup stGroup = new STGroupFile("PythonCodeTemplate.stg");
+//								
+								ST pythoncode = stGroup.getInstanceOf("pythonCode");
+//									
+								
+								for (WayPoint w : turtle.getWaypoints() ){
+									pythoncode.add("waypoints", "\"" + w.getName()  + "\": (" +  w.getCoord_x() + ", " + w.getCoord_y() + ")") ;	
+								}
+									
+
+
+
+//								
+							
+								
+								//System.out.println(hello.render());
+
 								IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 								IProject myProject = myWorkspaceRoot.getProjects()[0];
 								// create a new file
@@ -81,7 +107,7 @@ public class CreatePythonFromModelHandler extends AbstractHandler {
 										resultFile.create(new ByteArrayInputStream(new byte[0]), false, null);
 									
 									//fill the file
-									resultFile.setContents(new ByteArrayInputStream(pythoncode.getBytes("UTF-8")), 0, null);
+									resultFile.setContents(new ByteArrayInputStream(pythoncode.render().getBytes("UTF-8")), 0, null);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}

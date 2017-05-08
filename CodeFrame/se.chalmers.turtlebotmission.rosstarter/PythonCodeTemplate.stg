@@ -1,0 +1,22 @@
+pythonCode(name, waypoints) ::= <<
+
+
+	/*
+	
+	Add starting python-code here 
+	
+	*/
+	
+	
+	# example of how to create a dictionary of waipoints in python
+	waypoints = {<waypoints; separator=", "> }
+	
+	
+	
+	/* 
+	
+ 	Add closing python code
+	
+	*/
+
+>>
