@@ -28,7 +28,7 @@ TurtleBot test{
 			shortest path (W1,W2), return to start
 		},
 		ShuttleService{
-			shortest path (W1,W3), line(W2), return to start
+			shortest path (W1,W3), line(W2, W3, W2), return to start
 		} 
 	}	
 }

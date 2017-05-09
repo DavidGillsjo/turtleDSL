@@ -112,6 +112,68 @@ public class CreatePythonFromModelHandler extends AbstractHandler {
 								int bot_start_x = turtle.getBot_start().getCoord_x();
 								int bot_start_y = turtle.getBot_start().getCoord_y();
 								pythoncode.add("botstart", "(" + bot_start_x + ", " + bot_start_y + ")" );
+								
+								
+								// parse the missions
+								for (Mission m : turtle.getMissions()){
+									
+									List<String> mission = new ArrayList<String>();
+									
+									for (Task t : m.getTask()){
+										
+										String taskName = t.getClass().getSimpleName();
+										int n = taskName.length();
+										taskName = taskName.substring(0,n-8);
+										switch(taskName){
+										
+										case "ShortestPath": {
+											// the task is of type ShortestPath
+											// we can thus retrieve waypoints
+											ShortestPathTask task = (ShortestPathTask) t;
+											
+											List<String> waypoints = new ArrayList<String>();
+											
+											for (WayPoint w: task.getWaypoints()) waypoints.add("\"" + w.getName() + "\"");
+											
+											mission.add("[\""+ taskName + "\""  + ", " + waypoints + "]");
+											break;
+										
+										}
+										
+										case "Line": {
+											// the task is of type LineTask
+											// we can thus retrieve waypoints
+											LineTask task = (LineTask) t;
+											
+											List<String> waypoints = new ArrayList<String>();
+											
+											for (WayPoint w: task.getWaypoints()) waypoints.add("\"" + w.getName() + "\"");
+											
+											mission.add("[ \""+ taskName + "\""  + ", " + waypoints + "]");
+											break;
+										
+										}
+										
+										case "ReturnToStart": {
+											// the task is of type ShortestPath
+											// we can thus retrieve waypoints
+											ReturnToStartTask task = (ReturnToStartTask) t;
+											
+											
+											mission.add("[\""+ taskName + "\" ]");
+											break;
+										
+										}
+										
+										}
+										
+										
+										
+									}
+										
+									pythoncode.add("missions", "[" + "\"" + m.getName() + "\", " +  mission + "]");
+										
+								}
 
 								IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 								IProject myProject = myWorkspaceRoot.getProjects()[0];

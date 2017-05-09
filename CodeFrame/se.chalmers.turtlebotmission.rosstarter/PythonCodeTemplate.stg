@@ -67,7 +67,7 @@ if __name__ == '__main__':
         #creating a turtle object        
         tb = turtle()
         
-        
+        # -------------- old
         #list of coordinates to visit
         #This can is the only thing to change in the model to text
         # coordinate_list = [(1,1),(1,2),(3,3),(6,6),(10,10),(1,1)]
@@ -77,15 +77,12 @@ if __name__ == '__main__':
         #for coordinate in coordinate_list:
         #    x,y = coordinate
         #    tb.move2goal(x,y)
-
+ 		# -------------------
+ 		
+ 		
 		# filler for the coordinate dictionary
 		waypoints = {<waypoints; separator=", "> }
 		
-		# iterate over all the waypoints 
-		for w in waypoints:
-			x,y = waypoints[w][1],waypoints[w][2]
-			tb.move2goal(x,y)
-			
 		# filler for the waypoint types
 		waypointTypes = {<waypointTypes; separator=", "> }
 		
@@ -94,6 +91,16 @@ if __name__ == '__main__':
 		
 		# filler for the bot-start
 		bot_start = <botstart>
+		
+		# parse the missions
+		missions = [<missions; separator=", ">]
+		
+		# iterate over all the waypoints 
+		for w in waypoints:
+			x,y = waypoints[w][1],waypoints[w][2]
+			tb.move2goal(x,y)
+			
+		
 		
 		 
 
