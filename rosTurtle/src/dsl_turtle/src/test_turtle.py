@@ -2,9 +2,11 @@
 import rospy
 from geometry_msgs.msg  import Twist
 from turtlesim.msg import Pose
+from turtlesim.srv import *
 from math import pow,atan2,sqrt
 import numpy as np
 from copy import copy
+from std_srvs.srv import Empty
 
 class turtle():
     def __init__(self, bot_start, area, waypoints):
@@ -21,6 +23,16 @@ class turtle():
         self.bot_position = bot_start
         self.area = area
         self.waypoints = waypoints
+
+        # Set turtle to start pos
+        rospy.wait_for_service('/turtle1/teleport_absolute')
+        try:
+            teleport_bot = rospy.ServiceProxy('/turtle1/teleport_absolute', TeleportAbsolute)
+            teleport_bot(self.bot_start[0], self.bot_start[1], 0)
+            clear_bkg = rospy.ServiceProxy('clear', Empty)
+            clear_bkg()
+        except rospy.ServiceException, e:
+            print "Service call failed: %s"%e
 
     #Callback function implementing the pose value received
     #This saves the current position of the turtle in global coordinate system
@@ -140,7 +152,7 @@ if __name__ == '__main__':
         area = (0, 0)
 
         # filler for the bot-start
-        bot_start = (5.5, 5.5)
+        bot_start = (0, 0)
 
         #creating a turtle object        
         tb = turtle(bot_start, area, waypoints)
