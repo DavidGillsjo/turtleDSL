@@ -5,7 +5,7 @@ TurtleBot test{
 		
 	area = (max x = 5, max y = 5)
 		
-	waypoint types = {Storage, GasStation, ParkingLot, Customer}
+	waypoint types = {Hotel, PetrolStation, Airport, Storage, GasStation, ParkingLot, Customer}
 
 	// we define way points, which are of one or multiple types
 	waypoints = {

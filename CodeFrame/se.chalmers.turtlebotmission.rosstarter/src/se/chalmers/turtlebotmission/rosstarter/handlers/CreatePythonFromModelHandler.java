@@ -30,6 +30,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 
+import turtlebotmission.Area;
 import turtlebotmission.LineTask;
 import turtlebotmission.Mission;
 import turtlebotmission.ReturnToStartTask;
@@ -78,25 +79,39 @@ public class CreatePythonFromModelHandler extends AbstractHandler {
 								//This is were you should parse the model, create a plan, and fill the string template
 								//Don't hesitate to use extra classes and methods to structure your code
 								
-								
-								
-								
-								final STGroup stGroup = new STGroupFile("PythonCodeTemplate.stg");
-//								
+								// Initiate the template
+								final STGroup stGroup = new STGroupFile("PythonCodeTemplate.stg");								
 								ST pythoncode = stGroup.getInstanceOf("pythonCode");
-//									
 								
+								// parse the waypoints
 								for (WayPoint w : turtle.getWaypoints() ){
-									pythoncode.add("waypoints", "\"" + w.getName()  + "\": (" +  w.getCoord_x() + ", " + w.getCoord_y() + ")") ;	
+									int x_cord =  w.getCoord_x();
+									int y_cord =  w.getCoord_y();
+									List<WaypointType> types = w.getWaypointtypes();
+									List<String> types_string = new ArrayList<String>();
+									for(WaypointType t : types){
+										types_string.add("\"" + t.getName() + "\"");
+									}
+										
+									pythoncode.add("waypoints", "\"" + w.getName()  + "\": (" +  types_string + ", " + x_cord + ", " + y_cord + ")") ;	
 								}
 									
-
-
-
-//								
-							
 								
-								//System.out.println(hello.render());
+								// parse the waypoint types
+								for (WaypointType w : turtle.getWaypointtypes() ){
+									pythoncode.add("waypointTypes", "\"" + w.getName()  + "\"") ;	
+								}
+
+
+								// parse the area
+								int area_x = turtle.getArea().getXmax();
+								int area_y = turtle.getArea().getYmax();
+								pythoncode.add("area", "(" + area_x + ", " + area_y + ")");
+
+								// parse the bot start
+								int bot_start_x = turtle.getBot_start().getCoord_x();
+								int bot_start_y = turtle.getBot_start().getCoord_y();
+								pythoncode.add("botstart", "(" + bot_start_x + ", " + bot_start_y + ")" );
 
 								IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 								IProject myProject = myWorkspaceRoot.getProjects()[0];
