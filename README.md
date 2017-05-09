@@ -25,5 +25,7 @@ Remember to run step 2 and 3 from above to get the new editor.
 1. `./init_rosTurtle.sh`
 2. `roslaunch dsl_turtle simulate_test.launch`
 
-# Run generated mission
-`./testTurtle.sh`
+# Generate and run mission
+1. Open the editor (See Run editor), write your mission file.
+2. Press the turtle icon to generate a mission.
+3. Run `./testTurtle.sh` to run the mission in ROS.
