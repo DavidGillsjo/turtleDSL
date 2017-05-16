@@ -1,13 +1,17 @@
 pythonCode(waypoints, waypointTypes, area, botstart, missions) ::= <<
-	
+
 #!/usr/bin/env python
 import rospy
 from geometry_msgs.msg  import Twist
 from turtlesim.msg import Pose
+from turtlesim.srv import *
 from math import pow,atan2,sqrt
+import numpy as np
+from copy import copy
+from std_srvs.srv import Empty
 
 class turtle():
-    def __init__(self):
+    def __init__(self, bot_start, area, waypoints):
         #Creating our node,publisher and subscriber        
         rospy.init_node('turtlebot_controller', anonymous=True)
         self.velocity_publisher = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
@@ -16,6 +20,21 @@ class turtle():
         self.rate = rospy.Rate(10)
         #This is the tolerance of the controller, because the turtlesim is not the most accurate simulator
         self.tolerance = 0.1
+
+        self.bot_start = bot_start
+        self.bot_position = bot_start
+        self.area = area
+        self.waypoints = waypoints
+
+        # Set turtle to start pos
+        rospy.wait_for_service('/turtle1/teleport_absolute')
+        try:
+            teleport_bot = rospy.ServiceProxy('/turtle1/teleport_absolute', TeleportAbsolute)
+            teleport_bot(self.bot_start[0], self.bot_start[1], 0)
+            clear_bkg = rospy.ServiceProxy('clear', Empty)
+            clear_bkg()
+        except rospy.ServiceException, e:
+            print "Service call failed: %s"%e
 
     #Callback function implementing the pose value received
     #This saves the current position of the turtle in global coordinate system
@@ -61,50 +80,95 @@ class turtle():
         vel_msg.angular.z =0
         self.velocity_publisher.publish(vel_msg)
 
+    def find_nearest_wp(self, waypoints):
+        distances = np.zeros(len(waypoints))
+        for i,wp in enumerate(waypoints):
+            x_wp = self.waypoints[wp][1]
+            y_wp = self.waypoints[wp][2]
+            d = sqrt((self.bot_position[0] - x_wp)**2 + (self.bot_position[1] - y_wp)**2)
+            distances[i] = d
+        return distances.argmin()
+
+    def shortest_path(self, waypoints):
+        coords = []
+        my_wps = copy(waypoints)
+        
+        while len(my_wps) > 0:
+            best_wp_ind = self.find_nearest_wp(my_wps)
+            next_coord = self.get_wp_pos(my_wps[best_wp_ind])
+            coords.append(next_coord)
+            del my_wps[best_wp_ind]
+            self.bot_position = next_coord
+        
+        return coords
+
+    def line_path(self, waypoints):
+        coords = [self.get_wp_pos(wp) for wp in waypoints]
+        self.bot_position = coords[-1]
+        return coords
+
+    def return_to_start(self):
+        self.bot_position = self.mission_start_pos
+        return [self.mission_start_pos]
+    
+    def run_mission(self,mission_obj):
+        self.mission_start_pos = self.bot_position
+        mission_name = mission_obj[0]
+        tasks = mission_obj[1]
+
+        print "Starting mission %s" % mission_name
+        for task in tasks:
+            task_name = task[0]
+            task_wps = task[1] if len(task) > 1 else None
+            print "Running task %s" % task_name
+
+            if task_name == "ShortestPath":
+                coords_to_run = self.shortest_path(task_wps)
+            elif task_name == "ReturnToStart":
+                coords_to_run = self.return_to_start()
+            else:
+                coords_to_run = self.line_path(task_wps)
+
+            for c in coords_to_run:
+                self.move2goal(c[0], c[1])
+
+
+    def get_wp_pos(self, wp):
+        x_wp = self.waypoints[wp][1]
+        y_wp = self.waypoints[wp][2]
+        return [x_wp, y_wp]
+
+
 if __name__ == '__main__':
     try:
         #Testing our function
-        #creating a turtle object        
-        tb = turtle()
         
-        # -------------- old
-        #list of coordinates to visit
-        #This can is the only thing to change in the model to text
-        # coordinate_list = [(1,1),(1,2),(3,3),(6,6),(10,10),(1,1)]
         
+        # filler for the coordinate dictionary
+        waypoints = {<waypoints; separator=", "> }
 
-        #making the the turtle follow the coordinates in sequence   
-        #for coordinate in coordinate_list:
-        #    x,y = coordinate
-        #    tb.move2goal(x,y)
- 		# -------------------
- 		
- 		
-		# filler for the coordinate dictionary
-		waypoints = {<waypoints; separator=", "> }
-		
-		# filler for the waypoint types
-		waypointTypes = {<waypointTypes; separator=", "> }
-		
-		# filler for the area dictionary
-		area = <area>
-		
-		# filler for the bot-start
+        # filler for the waypoint types
+        waypointTypes = {<waypointTypes; separator=", "> }
+
+        # filler for the area dictionary
+      	area = <area>
+
+        # filler for the bot-start
 		bot_start = <botstart>
-		
-		# parse the missions
-		missions = [<missions; separator=", ">]
-		
-		# iterate over all the waypoints 
-		for w in waypoints:
-			x,y = waypoints[w][1],waypoints[w][2]
-			tb.move2goal(x,y)
-			
-		
-		
-		 
+
+        #creating a turtle object        
+        tb = turtle(bot_start, area, waypoints)
+
+        # parse the missions
+        missions = [<missions; separator=", ">]
+
+
+        for m in missions:
+            tb.run_mission(m)
+
 
     except rospy.ROSInterruptException:
         pass
+
 	
 >>
